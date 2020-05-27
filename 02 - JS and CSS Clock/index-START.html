@@ -32,6 +32,7 @@
       flex: 1;
       min-height: 100vh;
       align-items: center;
+      flex-direction: column;
     }
 
     .clock {
@@ -62,12 +63,48 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1)
     }
+
+    .second-hand {
+      background: #f00;
+    }
+
+    .min-hand {
+      background: #00f;
+    }
+
 
   </style>
 
   <script>
 
+    const hourHand = document.querySelector('.hour-hand');
+    const secondsHand = document.querySelector('.second-hand');
+    const minutesHand = document.querySelector('.min-hand');
+
+    function setTime() {
+      const now = new Date();
+
+      const hourDegrees = (now.getHours() / 12) * 360 + 90;
+      setStyle(hourHand, hourDegrees);
+
+      const secondsDegrees = ((now.getSeconds() / 60) * 360 )+ 90;
+      setStyle(secondsHand, secondsDegrees);
+
+      const minutesDegrees = ((now.getMinutes() / 60) * 360) + 90;
+      setStyle(minutesHand, minutesDegrees);
+    }
+
+    function setStyle(element, degrees){
+      element.style.transform = `rotate(${degrees}deg)`;
+
+    }
+
+    setInterval(setTime, 1000);
 
   </script>
 </body>
